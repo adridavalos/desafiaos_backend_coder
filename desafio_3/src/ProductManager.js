@@ -27,10 +27,10 @@ class ProductManager {
     }
   }
 
-  async getProducts() {
+  async getProducts(limit) {
     try {
       const productos = await this.recoverProduct();
-      return productos;
+      return limit === 0 ? productos : productos.slice(0, limit);
     } catch (error) {
       console.error("Error:", error);
       throw error;
@@ -125,3 +125,5 @@ class ProductManager {
     }
   }
 }
+
+export default ProductManager;

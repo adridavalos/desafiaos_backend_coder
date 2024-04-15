@@ -2,19 +2,19 @@
   {
     "title": "producto prueba",
     "description": "Este es un producto prueba",
-    "price": 202,
+    "price": 200,
     "thumbnail": "Sin imagen",
-    "code": "abc125",
-    "stock": 27,
-    "id": 2
+    "code": "abc123",
+    "stock": 25,
+    "id": 3
   },
   {
     "title": "producto prueba",
     "description": "Este es un producto prueba",
     "price": 200,
     "thumbnail": "Sin imagen",
-    "code": "abc123",
+    "code": "abc125",
     "stock": 25,
-    "id": 3
+    "id": 1
   }
 ]
