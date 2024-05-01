@@ -1,0 +1,131 @@
+<div class="mt-3">
+  <h3>Nuevo producto</h3>
+
+  <form id="productForm">
+    <input
+      class="form-control"
+      type="text"
+      id="titulo"
+      name="name"
+      placeholder="Titulo"
+      style="width: 300px;"
+    /><br />
+    <input
+      class="form-control"
+      type="text"
+      id="descripcion"
+      name="descripcion"
+      placeholder="Descripcion"
+      style="width: 300px;"
+    /><br />
+    <input
+      class="form-control"
+      type="text"
+      id="precio"
+      name="price"
+      style="width: 100px;"
+      placeholder="Precio"
+    /><br />
+    <input
+      class="form-control"
+      type="text"
+      id="thumbnail"
+      name="thumbnail"
+      style="width: 100px;"
+      placeholder="Imagen"
+    /><br />
+    <input
+      class="form-control"
+      type="text"
+      id="codigo"
+      name="codigo"
+      style="width: 100px;"
+      placeholder="Codigo"
+    /><br />
+    <input
+      class="form-control"
+      type="number"
+      id="stock"
+      name="stock"
+      style="width: 100px;"
+      placeholder="Stock"
+    /><br />
+    <input
+      class="form-control"
+      type="text"
+      id="categoria"
+      name="categoria"
+      style="width: 100px;"
+      placeholder="Categoria"
+    /><br />
+    <button type="submit" class="btn btn-success">Cargar Producto</button>
+    <h3>Eliminar producto</h3>
+  </form>
+  <form id="idForm">
+    <input
+      class="form-control"
+      type="text"
+      id="id"
+      name="id"
+      style="width: 100px;"
+      placeholder="Ingrese ID"
+    /><br />
+    <button type="submit" class="btn btn-success">Eliminar Producto</button>
+  </form>
+
+</div>
+<div>
+  <h1>Listado de productos</h1>
+  <ul class="list-group">
+    {{#each products}}
+      <li class="list-group-item">
+        <h2>{{title}}</h2>
+        <h4>{{description}}</h4>
+        <h4> Precio: {{price}}</h4>
+      </li>
+    {{/each}}
+  </ul>
+</div>
+<script
+  src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+  integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+  crossorigin="anonymous"
+></script>
+<script>
+  const serverAddress = 'ws://localhost:8080'; 
+  const socketProduct = io(serverAddress);
+  socketProduct.on('productsChanged', data => {
+    window.location.reload(); 
+  });
+
+  const productForm = document.getElementById('productForm');
+  productForm.addEventListener('submit', async (evt) => {
+        evt.preventDefault();
+        const title = document.getElementById('titulo').value;
+        const description = document.getElementById('descripcion').value;
+        const price = document.getElementById('precio').value;
+        const thumbnail = document.getElementById('thumbnail').value;
+        const code = document.getElementById('codigo').value;
+        const stock = document.getElementById('stock').value;
+        const category = document.getElementById('categoria').value;
+
+        const process = await fetch('/api/products', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, description, price,thumbnail,code,stock,category})
+        });
+    });
+
+  const idForm = document.getElementById('idForm');
+  idForm.addEventListener('submit', async(evt)=>{
+      evt.preventDefault();
+
+      const id = document.getElementById('id').value;
+      console.log(id);
+      const process = await fetch(`/api/products/${id} `, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+    })
+</script>

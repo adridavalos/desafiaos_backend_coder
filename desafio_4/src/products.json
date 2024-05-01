@@ -1,0 +1,57 @@
+[
+  {
+    "title": "LECHE ",
+    "description": "Descripcion de leche",
+    "price": 2060,
+    "thumbnail": "Sin imagen",
+    "code": "abc122",
+    "stock": 20,
+    "id": 3,
+    "status": "true",
+    "category": 4
+  },
+  {
+    "title": "AZUCAR",
+    "description": "Descripcion de azucar",
+    "price": 2060,
+    "thumbnail": "Sin imagen",
+    "code": "abc123",
+    "stock": 20,
+    "id": 4,
+    "status": "true",
+    "category": 4
+  },
+  {
+    "title": "HUEVOS",
+    "description": "Descripcion de huevos",
+    "price": 2060,
+    "thumbnail": "Sin imagen",
+    "code": "abc124",
+    "stock": 20,
+    "id": 5,
+    "status": "true",
+    "category": 4
+  },
+  {
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 2050,
+    "thumbnail": "Sin imagen",
+    "code": "600",
+    "stock": 29,
+    "status": "true",
+    "category": 4,
+    "id": 7
+  },
+  {
+    "title": "producto prueba",
+    "description": "Este es un producto prueba",
+    "price": 2050,
+    "thumbnail": "Sin imagen",
+    "code": "690",
+    "stock": 29,
+    "status": "true",
+    "category": 4,
+    "id": 8
+  }
+]
