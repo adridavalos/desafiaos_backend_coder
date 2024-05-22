@@ -24,7 +24,7 @@ const httpServer = app.listen(config.PORT, () => {
   console.log(`Servidor activo en puerto ${config.PORT}`);
 });
 const socketServer = new Server(httpServer);
-app.set("socketServer", socketServer);
+app.set("socketServer", socketServer);//referencia global
 
 socketServer.on("connection", (client) => {
   console.log(

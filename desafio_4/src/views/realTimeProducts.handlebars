@@ -1,90 +1,96 @@
-<div class="mt-3">
-  <h3>Nuevo producto</h3>
-
-  <form id="productForm">
-    <input
-      class="form-control"
-      type="text"
-      id="titulo"
-      name="name"
-      placeholder="Titulo"
-      style="width: 300px;"
-    /><br />
-    <input
-      class="form-control"
-      type="text"
-      id="descripcion"
-      name="descripcion"
-      placeholder="Descripcion"
-      style="width: 300px;"
-    /><br />
-    <input
-      class="form-control"
-      type="text"
-      id="precio"
-      name="price"
-      style="width: 100px;"
-      placeholder="Precio"
-    /><br />
-    <input
-      class="form-control"
-      type="text"
-      id="thumbnail"
-      name="thumbnail"
-      style="width: 100px;"
-      placeholder="Imagen"
-    /><br />
-    <input
-      class="form-control"
-      type="text"
-      id="codigo"
-      name="codigo"
-      style="width: 100px;"
-      placeholder="Codigo"
-    /><br />
-    <input
-      class="form-control"
-      type="number"
-      id="stock"
-      name="stock"
-      style="width: 100px;"
-      placeholder="Stock"
-    /><br />
-    <input
-      class="form-control"
-      type="text"
-      id="categoria"
-      name="categoria"
-      style="width: 100px;"
-      placeholder="Categoria"
-    /><br />
-    <button type="submit" class="btn btn-success">Cargar Producto</button>
-    <h3>Eliminar producto</h3>
-  </form>
-  <form id="idForm">
-    <input
-      class="form-control"
-      type="text"
-      id="id"
-      name="id"
-      style="width: 100px;"
-      placeholder="Ingrese ID"
-    /><br />
-    <button type="submit" class="btn btn-success">Eliminar Producto</button>
-  </form>
-
+<div class="container" >
+   <div class="row">
+      <div class="col-md-6 m-5 p-3">
+          <h3 class="mb-5">CARGAR PRODUCTOS NUEVOS</h3>
+          <form id="productForm" class="row g-3 needs-validation border" novalidate>
+              <div class="col-md-8">
+                <label for="validationCustom01" class="form-label">Titulo</label>
+                <input type="text" class="form-control" id="titulo"  required>
+                <div class="valid-feedback">
+                  Correcto!
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Precio</label>
+                <input type="text" class="form-control" id="precio" required>
+                <div class="valid-feedback">
+                  Correcto!
+                </div>
+              </div>
+              <div class="col-md-8">
+                <label for="validationCustom02" class="form-label">Imagen</label>
+                <input type="text" class="form-control" id="thumbnail" required>
+                <div class="valid-feedback">
+                  Correcto!
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Codigo</label>
+                <input type="text" class="form-control" id="codigo" required>
+                <div class="valid-feedback">
+                  Correcto!
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Stock</label>
+                <input type="number" class="form-control" id="stock" required>
+                <div class="valid-feedback">
+                  Correcto!
+                </div>
+              </div>
+              <div class="col-md-4">
+                <label for="validationCustom02" class="form-label">Categoria</label>
+                <input type="text" class="form-control" id="categoria" required>
+                <div class="valid-feedback">
+                  Correcto!
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="validationTextarea" class="form-label">Descripcion</label>
+                <textarea class="form-control" id="descripcion" placeholder="Ingrese descripcion" required></textarea>
+                <div class="invalid-feedback">
+                  Ingrese descripcion
+                </div>
+              </div>
+              <div class="col-12  ml-3">
+                <button class="btn btn-primary" type="submit">Cargar Producto</button>
+              </div>
+          </form>
+      </div>
+      <div class="col-md-4 m-5">
+            <h3>Eliminar producto</h3>
+            <form id="idForm">
+                <div class="col-md-8">
+                  <label for="validationCustom01" class="form-label">Ingrese ID</label>
+                  <input type="text" class="form-control" id="id"  required>
+                  <div class="valid-feedback">
+                    Correcto!
+                  </div>
+                </div>
+              <button type="submit" class="btn btn-primary mt-3">Eliminar Producto</button>
+          </form>
+      </div>
+   </div>
 </div>
-<div>
-  <h1>Listado de productos</h1>
-  <ul class="list-group">
-    {{#each products}}
-      <li class="list-group-item">
-        <h2>{{title}}</h2>
-        <h4>{{description}}</h4>
-        <h4> Precio: {{price}}</h4>
-      </li>
+
+
+<div class="grid text-center" >
+  <h1>PRODUCTOS DISPONIBLES</h1>
+  <div class="row">
+   {{#each products}}
+      <div class="col m-3">
+            <div class="card" style="width: 18rem;">
+              <img src="https://coca-colafemsa.com/wp-content/uploads/2019/12/reflejo_pag1.png" class="card-img-top" alt="productos">
+              <div class="card-body">
+                <h3 class="card-title">{{title}}</h3>
+                <p class="card-text">{{description}}</p>
+                <h5 class="card-title">${{price}}</h5>
+                <a href="#" class="btn btn-primary">Comprar</a>
+              </div>
+            </div>
+      </div>
     {{/each}}
-  </ul>
+  </div>
 </div>
 <script
   src="https://cdn.socket.io/4.7.5/socket.io.min.js"
@@ -93,8 +99,9 @@
 ></script>
 <script>
   const serverAddress = 'ws://localhost:8080'; 
-  const socketProduct = io(serverAddress);
-  socketProduct.on('productsChanged', data => {
+  const socketCient = io(serverAddress);
+  
+  socketCient.on('productsChanged', data => {
     window.location.reload(); 
   });
 

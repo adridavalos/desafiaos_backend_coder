@@ -48,7 +48,7 @@ router.put("/:pid", async (req, res) => {
 });
 router.delete("/:pid", async (req, res) => {
   try {
-    const socketServer = req.app.get("socketServer");
+    const socketServer = req.app.get("socketServer");//referencia global del socketServer
     await manager.deleteProduct(parseInt(req.params.pid));
     res.status(200).send({
       origin: "server1",
@@ -62,3 +62,4 @@ router.delete("/:pid", async (req, res) => {
 });
 
 export default router;
+

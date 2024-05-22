@@ -50,7 +50,7 @@ class cartManager {
       if (product) {
         product.quantity = product.quantity + quantity;
       } else {
-        cart.products.push({ product: pid, quantity });
+        cart.products.push({ idProduct: pid, quantity });
       }
       await fs.promises.writeFile(
         this.path,
