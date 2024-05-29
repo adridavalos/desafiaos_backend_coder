@@ -1,0 +1,29 @@
+
+<div class="grid text-center" >
+  <h1>PRODUCTOS DISPONIBLES</h1>
+  <div class="row">
+   {{#each products}}
+      <div class="col m-3">
+            <div class="card" style="width: 18rem;">
+              <img src="https://coca-colafemsa.com/wp-content/uploads/2019/12/reflejo_pag1.png" class="card-img-top" alt="productos">
+              <div class="card-body">
+                <h3 class="card-title">{{title}}</h3>
+                <p class="card-text">{{description}}</p>
+                <h5 class="card-title">${{price}}</h5>
+                <a href="#" class="btn btn-primary">Agregar al carrito</a>
+              </div>
+            </div>
+      </div>
+    {{/each}}
+  </div>
+
+  <nav aria-label="...">
+    <ul class="pagination justify-content-center m-3">
+      <li class="page-item"><a class="page-link" href="?page=1">1</a></li>
+      <li class="page-item"><a class="page-link" href="?page=2">2</a></li>
+      <li class="page-item"><a class="page-link" href="?page=3">3</a></li>
+    </ul>
+  </nav>
+
+
+</div>
