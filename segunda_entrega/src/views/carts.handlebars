@@ -1,0 +1,17 @@
+<div class="grid text-center" >
+  <h1>Mi carrito</h1>
+  <div class="row">
+   {{#each products}}
+      <div class="col m-3">
+            <div class="card" style="width: 18rem;">
+              <img src="https://coca-colafemsa.com/wp-content/uploads/2019/12/reflejo_pag1.png" class="card-img-top" alt="productos">
+              <div class="card-body">
+                <h3 class="card-title">{{title}}</h3>
+                <p class="card-text">{{description}}</p>
+                <h5 class="card-title">${{price}}</h5>
+                <a href="#" class="btn btn-primary">Eliminar</a>
+              </div>
+            </div>
+      </div>
+    {{/each}}
+  </div>

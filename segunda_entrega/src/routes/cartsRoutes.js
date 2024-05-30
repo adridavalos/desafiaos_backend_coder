@@ -28,11 +28,14 @@ router.post("/", async (req, res) => {
 
 router.get("/:cid", async (req, res) => {
   try {
-    const product = await manager.getCartById(req.params.cid);
-    res.status(200).send({
-      origin: "server1",
-      payload: product,
-    });
+    const cart = await manager.getCartById(req.params.cid);
+    const mappedProducts = cart.products.map((product) => ({
+      id: product.product._id.toString(),
+      title: product.product.title,
+      description: product.product.description,
+      price: product.product.price,
+    }));
+    res.status(200).render("carts", { products: mappedProducts });
   } catch (error) {
     console.error("Error:", error);
     res.status(400).send({ origin: "server1", payload: error.message });
