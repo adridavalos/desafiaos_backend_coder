@@ -2,10 +2,10 @@ import { Router } from "express";
 import passport from "passport";
 
 import config from "../config.js";
-import usersManager from "../dao/users.manager.mdb.js"
-import { verifyRequiredBody } from "../utils.js";
+import usersManager from "../controllers/users.manager.mdb.js"
+import { verifyRequiredBody } from "../services/utils.js";
 import initAuthStrategies from "../auth/passport.strategies.js";
-import cartManager from "../cartManager.js"
+import cartManager from "../controllers/cartManager.js"
 
 const router = Router();
 
