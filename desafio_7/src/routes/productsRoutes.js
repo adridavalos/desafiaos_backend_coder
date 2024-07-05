@@ -21,19 +21,13 @@ router.get("/", async (req, res) => {
   const query = req.query.query;
   const sort = req.query.sort;
   const products = await manager.getAll(limit,page,query,sort);
-  const mappedProducts = products.docs.map((product) => ({
-    id: product._id.toString(),
-    title: product.title,
-    description: product.description,
-    price: product.price
-  }))
-  res.status(200).render("home", { products: mappedProducts });
+  res.status(200).render("home", { products: products });
 });
 router.get("/:pid", async (req, res) => {
   const id = req.params.pid;
   const product = await manager.getById(id);
   if (product) {
-    res.status(200).send({ status: 1, payload: product });
+    res.status(200).send({ status: 1, payload: product.docs});
   } else {
     res.send({ status: 0, payload: "El producto no existe" });
   }

@@ -3,7 +3,7 @@ import passport from "passport";
 
 import config from "../config.js";
 import usersManager from "../controllers/users.manager.mdb.js"
-import { verifyRequiredBody } from "../services/utils.js";
+import { verifyRequiredBody, handlePolicies } from "../services/utils.js";
 import initAuthStrategies from "../auth/passport.strategies.js";
 import cartManager from "../controllers/cartManager.js"
 
@@ -14,41 +14,6 @@ const cartsManager = new cartManager();
 
 initAuthStrategies();
 
-const adminAuth = (req, res, next) => {
-  if (!req.session.user || req.session.user.role !== "admin")
-    // Si no existe el objeto req.session.user o el role no es admin
-    return res
-      .status(403)
-      .send({
-        origin: config.SERVER,
-        payload:
-          "Acceso no autorizado: se requiere autenticación y nivel de admin",
-      });
-
-    next();
-};
-const verifyAuthorization = (role) => {
-  return async (req, res, next) => {
-    if (!req.user)
-      return res
-        .status(401)
-        .send({ origin: config.SERVER, payload: "Usuario no autenticado" });
-    if (req.user.role !== role)
-      return res
-        .status(403)
-        .send({
-          origin: config.SERVER,
-          payload: "No tiene permisos para acceder al recurso",
-        });
-
-    next();
-  };
-};
-const handlePolicies = (policies)=>{
-  return async (req,res,next)=>{
-
-  }
-}
 router.get("/counter", async (req, res) => {
   try {
     // Si hay un counter en req.session, lo incrementamos, sino lo creamos con valor 1
@@ -120,18 +85,6 @@ router.get("/ghlogincallback",passport.authenticate("ghlogin", {failureRedirect:
   }
 );
 
-router.get("/private", adminAuth, async (req, res) => {
-  try {
-    res
-      .status(200)
-      .send({ origin: config.SERVER, payload: "Bienvenido ADMIN!" });
-  } catch (err) {
-    res
-      .status(500)
-      .send({ origin: config.SERVER, payload: null, error: err.message });
-  }
-});
-
 // Limpiamos los datos de sesión
 router.get("/logout", async (req, res) => {
   try {
@@ -179,12 +132,16 @@ router.post("/register",verifyRequiredBody(['firstName', 'lastName', 'email', 'p
   }
 });
 
-router.get('/admin', verifyAuthorization('admin'), async (req, res) => {
-    try {
-        res.status(200).send({ origin: config.SERVER, payload: 'Bienvenido ADMIN!' });
-    } catch (err) {
-        res.status(500).send({ origin: config.SERVER, payload: null, error: err.message });
-    }
+router.get("/admin", handlePolicies(["admin"]), async (req, res) => {
+  try {
+    res
+      .status(200)
+      .send({ origin: config.SERVER, payload: "Bienvenido ADMIN!" });
+  } catch (err) {
+    res
+      .status(500)
+      .send({ origin: config.SERVER, payload: null, error: err.message });
+  }
 });
 
 export default router;

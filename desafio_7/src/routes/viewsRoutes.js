@@ -13,13 +13,7 @@ router.get("/realtimeproducts", async (req, res) => {
   const query = req.query.query;
   const sort = req.query.sort;
   const products = await manager.getAll(limit, page, query, sort);
-  const mappedProducts = products.docs.map((product) => ({
-    id: product._id.toString(),
-    title: product.title,
-    description: product.description,
-    price: product.price,
-  }));
-  res.status(200).render("realTimeProducts", { products: mappedProducts });
+  res.status(200).render("realTimeProducts", { products: products });
 });
 
 router.get("/products", async (req, res) => {
@@ -29,18 +23,12 @@ router.get("/products", async (req, res) => {
   const query = req.query.query;
   const sort = req.query.sort;
   const products = await manager.getAll(limit, page, query, sort);
-  const mappedProducts = products.docs.map((product) => ({
-    id: product._id.toString(),
-    title: product.title,
-    description: product.description,
-    price: product.price,
-  })); 
   const user = req.session.user;
   const userId = user._id.toString();
   const carritoUsu = await cartsManager.getCartByUsuId(userId);
   const userModificado = { ...user, _id: userId };
 
-  res.status(200).render("products",{ products: mappedProducts , user:userModificado, idCart: carritoUsu._id.toString()});
+  res.status(200).render("products",{ products: products , user:userModificado, idCart: carritoUsu._id.toString()});
 });
 
 router.get("/register", (req, res) => {
@@ -54,7 +42,7 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/profile", (req, res) => {
-  // Si NO hay datos de sesión activos, redireccionamos al loginm
+  // Si NO hay datos de sesión activos, redireccionamos al login
   if (!req.session.user) return res.redirect("/login");
     res.redirect("/products");
 });
