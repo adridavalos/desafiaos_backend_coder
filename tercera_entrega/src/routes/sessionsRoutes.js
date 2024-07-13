@@ -15,7 +15,7 @@ const cartsManager = new cartManager();
 initAuthStrategies();
 
 
-router.post( "/login", verifyRequiredBody(["email", "password"]),passport.authenticate("login", {failureRedirect: `/login?error=${encodeURI("Usuario o clave no válidos")}`,}),async (req, res) => {
+router.post( "/login", verifyRequiredBody(["email", "password"]),passport.authenticate('login', {failureRedirect: `/login?error=${encodeURI("Usuario o clave no válidos")}`}),async (req, res) => {
     try {
         req.session.user = req.user;
         req.session.save((err) => {
@@ -28,7 +28,7 @@ router.post( "/login", verifyRequiredBody(["email", "password"]),passport.authen
                 error: err.message,
               });
 
-          res.redirect("/profile");
+          res.redirect("/products");
         });
     } catch (err) {
       res
@@ -49,7 +49,7 @@ router.get("/ghlogincallback",passport.authenticate("ghlogin", {failureRedirect:
             .status(500)
             .send({ origin: config.SERVER, payload: null, error: err.message });
 
-        res.redirect("/profile");
+        res.redirect("/products");
       });
     } catch (err) {
       res
@@ -77,40 +77,21 @@ router.get("/logout", async (req, res) => {
 
 router.post("/register",verifyRequiredBody(['firstName', 'lastName', 'email', 'password']), async (req, res) => {
   try {
-    const { firstName, lastName, email } = req.body;
-
     const result = await manager.Aggregated(req.body);
 
     if (result === "El email ya está registrado.") {
       return res.status(400).send({ message: result });
     }
-    cartsManager.addCart(result._id.toHexString());
-    req.session.user = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
-      _id: result._id.toHexString(),
-    };
+    cartsManager.addCart(result._id.toHexString()); 
+    req.session.user = result;
     req.session.save((err) => {
         if (err)
           return res
             .status(500)
             .send({ origin: config.SERVER, payload: null, error: err.message });
 
-        res.redirect("/profile");
+        res.redirect("/products");
     });
-  } catch (err) {
-    res
-      .status(500)
-      .send({ origin: config.SERVER, payload: null, error: err.message });
-  }
-});
-
-router.get("/admin", handlePolicies(["admin"]), async (req, res) => {
-  try {
-    res
-      .status(200)
-      .send({ origin: config.SERVER, payload: "Bienvenido ADMIN!" });
   } catch (err) {
     res
       .status(500)
