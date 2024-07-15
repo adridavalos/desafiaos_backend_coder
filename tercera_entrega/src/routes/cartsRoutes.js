@@ -1,7 +1,7 @@
 import { Router } from "express";
 import cartManager from "../controllers/cartManager.js";
 import config from "../config.js"
-import { handlePolicies } from "../services/utils.js";
+import { handlePolicies, current } from "../services/utils.js";
 
 const router = Router();
 const manager = new cartManager();
@@ -50,12 +50,14 @@ router.get("/:cid", async (req, res) => {
   try {
     const cart = await manager.getCartById(req.params.cid);
     const mappedProducts = cart.products.map((product) => ({
-      id: product.product._id.toString(),
+      _id: product.product._id.toString(),
       title: product.product.title,
       description: product.product.description,
       price: product.product.price,
+      stock: product.product.stock,
+      quantity:product.quantity,
     }));
-    res.status(200).render("carts", { products: mappedProducts });
+    res.status(200).render("carts", { products: mappedProducts,idCart: req.params.cid, user: current(req)});
   } catch (error) {
     console.error("Error:", error);
     res.status(400).send({ origin: "server1", payload: error.message });
@@ -135,11 +137,18 @@ router.put("/:cid/product/:pid", async (req, res) => {
   }
 
 });
-//Este enunciado no entendi a que se referia
-router.put("/:cid", async (req, res) => {});
+
+router.post("/:cid/purchase", async (req, res) => {
+  try{
+
+  }catch (error) {
+    console.error("Error:", error);
+    res.status(400).send({ origin: "server1", payload: error.message });
+  }
+});
 
 router.all('*', async(req,res)=>{
   res.status(404).send({origin: config.SERVER, payload:null, error:'No se encuentra la ruta solicitada'});
-})
+});
 export default router;
 

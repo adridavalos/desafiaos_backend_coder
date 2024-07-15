@@ -34,7 +34,7 @@ class cartManager {
   }
   async getCartByUsuId(uid) {
     try {
-      const cart = await cartsModel.findOne({ _user_id: uid });
+      const cart = await cartsModel.findOne({ _user_id: uid }).lean();
       return cart;
     } catch (error) {
       console.error('Error al obtener el carrito por ID de usuario:', error);
@@ -94,7 +94,6 @@ class cartManager {
             "El producto no está en el carrito o el carrito no existe"
           );
         }
-
         console.log("Producto eliminado del carrito:", result);
         return result;
       } else {

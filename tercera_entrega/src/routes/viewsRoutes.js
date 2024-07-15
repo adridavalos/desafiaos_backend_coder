@@ -28,7 +28,7 @@ router.get("/products", async (req, res) => {
   const userId = user._id.toString();
   const carritoUsu = await cartsManager.getCartByUsuId(userId);
   const userModificado = { ...user, _id: userId };
-
+  console.log({ products: products , user:userModificado, idCart: carritoUsu._id.toString()})
   res.status(200).render("products",{ products: products , user:userModificado, idCart: carritoUsu._id.toString()});
 });
 
