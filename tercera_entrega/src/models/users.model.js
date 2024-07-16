@@ -11,7 +11,7 @@ const schema = new mongoose.Schema({
   lastName: { type: String, required: true, index: false },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "premium", "user"], default: "user" },
+  role: { type: String, enum: ["admin", "premium", "user"], default: "admin" },
   gender: { type: String, enum: ["Female", "Male","indefinite"], default: "indefinite" },
   // Las propiedades grade y region las colocamos para probar el uso de aggregate,
   // deshabilitarlas al testear el paginado con la otra colección

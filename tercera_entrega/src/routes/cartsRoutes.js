@@ -140,10 +140,23 @@ router.put("/:cid/product/:pid", async (req, res) => {
 
 router.post("/:cid/purchase", async (req, res) => {
   try{
-
+    const idCart = req.params.cid;
+    const {success, message, productsToKeep} = await manager.finalizePurchase(idCart);
+    console.log(success,message,productsToKeep);
+    if (success){
+      res.status(200).send({
+        origin: "server1",
+        payload: idCart,
+        message,
+        productsToKeep,
+        success
+      });  
+    }else {
+      res.status(400).send({message: 'No se pudo comprar',success});
+    }
   }catch (error) {
     console.error("Error:", error);
-    res.status(400).send({ origin: "server1", payload: error.message });
+    res.status(500).send({ origin: "server1", payload: error.message });
   }
 });
 

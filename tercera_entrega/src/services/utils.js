@@ -34,10 +34,16 @@ export const handlePolicies = (policies) => {
     });
   };
 };
-export const current =(req)=>{
-  if(!req.session.user){
+export const current = (req) => {
+  if (!req.session.user) {
     return null;
-  };
+  }
+
   const { password, ...foundUser } = req.session.user;
-  return foundUser;
-}
+  const userWithIdAsString = {
+    ...foundUser,
+    _id: foundUser._id.toString()
+  };
+
+  return userWithIdAsString;
+};

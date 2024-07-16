@@ -2,33 +2,37 @@
 import { Router } from "express";
 import ProductManager from "../controllers/productManager.js";
 import cartManager from "../controllers/cartManager.js";
-import { current } from "../services/utils.js";
+import {handlePolicies, current } from "../services/utils.js";
 
 const router = Router();
 const manager = new ProductManager();
 const cartsManager = new cartManager();
 
 router.get("/realtimeproducts", async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+  const user = current(req);
   const limit = req.query.limit;
   const page = req.query.page;
   const query = req.query.query;
   const sort = req.query.sort;
   const products = await manager.getAll(limit, page, query, sort);
-  res.status(200).render("realTimeProducts", { products: products });
-});
-
-router.get("/products", async (req, res) => {
-  const user = current(req)
-  if (!user) return res.redirect("/login");
-  const limit = req.query.limit;
-  const page = req.query.page;
-  const query = req.query.query;
-  const sort = req.query.sort;
-  const products = await manager.getAll(limit, page, query, sort);
-  const userId = user._id.toString();
+  const userId = user._id;
   const carritoUsu = await cartsManager.getCartByUsuId(userId);
   const userModificado = { ...user, _id: userId };
-  console.log({ products: products , user:userModificado, idCart: carritoUsu._id.toString()})
+  res.status(200).render("realTimeProducts", { products: products , user:userModificado, idCart: carritoUsu._id.toString() });
+});
+
+router.get("/products",handlePolicies('user'), async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+  const user = current(req);
+  const limit = req.query.limit;
+  const page = req.query.page;
+  const query = req.query.query;
+  const sort = req.query.sort;
+  const products = await manager.getAll(limit, page, query, sort);
+  const userId = user._id;
+  const carritoUsu = await cartsManager.getCartByUsuId(userId);
+  const userModificado = { ...user, _id: userId };
   res.status(200).render("products",{ products: products , user:userModificado, idCart: carritoUsu._id.toString()});
 });
 

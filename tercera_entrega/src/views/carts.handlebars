@@ -36,7 +36,7 @@
     {{/each}}
   </div>
   <div class="mt-4 d-flex justify-content-center">
-    <a href="/checkout/{{idCart}}" class="btn btn-success me-2">Finalizar Compra</a>
+    <a class="btn btn-success me-2"onclick="finalizePurcharse('{{idCart}}')">Finalizar Compra</a>
     <a href="#" class="btn btn-danger" onclick="emptyCart('{{idCart}}')">Vaciar Carrito</a>
   </div>
 </div>
@@ -75,10 +75,7 @@
         console.error('Error:', error);
       });
     }
-</script>
 
-
-<script>
     function removeFromCart(cartId, productId) {
       fetch(`/api/carts/${cartId}/product/${productId}`, {
         method: 'DELETE'
@@ -111,4 +108,27 @@
         console.error('Error:', error);
       });
     }
+
+    function finalizePurcharse(cartId) {
+      fetch(`/api/carts/${cartId}/purchase`, {
+        method: 'POST'
+        
+      }).then(response => {
+        return response.json();
+      }).then(data => {
+        console.log(data);
+        if (data.success) {
+          alert('Compra Finalizada');
+          location.reload();
+        }else{
+           alert(data.message || 'No se pudo realizar la compra, Hubo un error o no hay suficiente stock');
+            location.reload();
+        }
+      }).catch(error => {
+        alert('No se pudo realizar la compra');
+        console.error('Error:', error);
+      });
+    }
+
 </script>
+

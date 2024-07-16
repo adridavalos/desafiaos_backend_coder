@@ -7,7 +7,7 @@ const collection = 'tickets';
 const schema = new mongoose.Schema({
     code: { type: String, unique: true },
     price: { type: Number, required: true,default: 0.0 },
-    purchaser_id:{type:mongoose.schema.Types.objectId, required: true},
+    purchaser_id:{type:mongoose.Schema.Types.ObjectId, required: true},
 
 
 },{

@@ -46,7 +46,7 @@ const expressInstance = app.listen(config.PORT, async() => {
       //para persistencia en archivo
       //store: new fileStorage({ path: "./sessions", ttl: 100, retries: 0 }),
       //para mongo
-      store: MongoStore.create({ mongoUrl: config.MONGODB_URI, ttl: 15 }),
+      store: MongoStore.create({ mongoUrl: config.MONGODB_URI, ttl: 100 }),
       secret: config.SECRET,
       resave: true,
       saveUninitialized: true,

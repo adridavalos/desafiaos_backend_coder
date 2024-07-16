@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import cartsModel from "../models/carts.model.js";
 import productModel from "../models/products.model.js";
+import ticketManager from "./ticketManager.js";
 
 //FILE SYSTEM
 import fs from "fs";
@@ -49,12 +50,9 @@ class cartManager {
       if (!cart) {
         throw new Error("Carrito no encontrado");
       }
-      console.log((typeof(pid)));
-      console.log(cart.products);
       const productIndex = cart.products.findIndex(
         (product) => product.product._id.toString() === pid
       );
-      console.log(productIndex);
 
       if (productIndex !== -1) {
         // Si el producto ya existe en el carrito, incrementar la cantidad
@@ -145,6 +143,84 @@ class cartManager {
       throw error;
     }
   }
+
+  async finalizePurchase(cid) {
+    try {
+        const cart = await this.getCartById(cid);
+        if (!cart) {
+            throw new Error('Carrito no encontrado');
+        }
+
+        // Listas para productos a actualizar y a mantener en el carrito
+        const productsToUpdate = [];
+        const productsToKeep = [];
+        let totalAmount = 0;
+
+        // Verificar stock de todos los productos
+        for (let item of cart.products) {
+            if (item.product.stock >= item.quantity) {
+                productsToUpdate.push(item);
+                totalAmount += item.product.price * item.quantity;
+            } else {
+                productsToKeep.push(item);
+                console.warn(`No hay suficiente stock para el producto: ${item.product.title }`);
+            }
+        }
+
+        // Si no hay productos disponibles, retornar un mensaje adecuado
+        if (productsToUpdate.length === 0) {
+            return { success: false, message: 'No hay productos disponibles para procesar la compra.' };
+        }
+
+        // Actualizar stock de los productos que tienen suficiente stock
+        for (let item of productsToUpdate) {
+            const _id = item.product._id.toString();
+            item.product.stock -= item.quantity;
+
+            const updateResult = await productModel.findOneAndUpdate(
+                { _id },
+                { $set: { stock: item.product.stock } },
+                { new: true }
+            );
+
+            // Verificar que la actualización fue exitosa
+            if (!updateResult) {
+                throw new Error(`Error al actualizar el stock para el producto: ${item.product.name || 'Producto desconocido'}`);
+            }
+
+            // Eliminar producto comprado del carrito
+            await this.deleteProductSelection(cid, _id);
+        }
+
+        // Mantener productos que no se pudieron comprar en el carrito
+        if (productsToKeep.length > 0) {
+            await cartsModel.findByIdAndUpdate(cid, { products: productsToKeep });
+        }
+
+        // Crear el ticket con los detalles de la compra
+        const ticketData = {
+            code: `TICKET-${Date.now()}`,
+            price: totalAmount,
+            purchaser_id: cart._user_id // Asegúrate de que cart tenga el userId
+        };
+
+        const ticket = await ticketManager.createTicket(ticketData);
+
+        return { 
+            success: true, 
+            message: 'Compra finalizada con éxito', 
+            ticket,
+            productsToKeep
+        };
+      
+    } catch (error) {
+        console.error("Error:", error);
+        throw error;
+    }
+}
+
+
+
 }
 
 export default cartManager;
