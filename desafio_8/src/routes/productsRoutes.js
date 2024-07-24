@@ -1,7 +1,7 @@
 import { Router } from "express";
 import ProductManager from "../controllers/productManager.js";
 import config from '../config.js';
-import { handlePolicies } from "../services/utils.js";
+import { handlePolicies,verifyRequiredBody } from "../services/utils.js";
 
 const router = Router();
 const manager = new ProductManager();
@@ -33,7 +33,7 @@ router.get("/:pid", async (req, res) => {
     res.send({ status: 0, payload: "El producto no existe" });
   }
 });
-router.post("/", handlePolicies('admin'),async (req, res) => {
+router.post("/",handlePolicies('admin'),verifyRequiredBody(['title', 'description', 'price', 'thumbnail','code','stock']),async (req, res) => {
   try {
     const socketServer = req.app.get("socketServer");
     const id = await manager.add(req.body);
