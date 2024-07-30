@@ -16,7 +16,8 @@ export const verifyRequiredBody = (requiredFields) => {
       );
       
       //if (!allOk) return res.status(400).send({ origin: config.SERVER, payload: 'Faltan propiedades', requiredFields });
-      if(!allOk) throw new CustomError(errorMessages.FEW_PARAMETERS)
+      if(!allOk) {
+        throw new CustomError(errorMessages.FEW_PARAMETERS)}
     next();
   };
 };

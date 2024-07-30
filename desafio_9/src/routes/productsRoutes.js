@@ -33,7 +33,21 @@ router.get("/:pid", async (req, res) => {
     res.send({ status: 0, payload: "El producto no existe" });
   }
 });
-router.post("/",handlePolicies('admin'),verifyRequiredBody(['title', 'description', 'price', 'thumbnail','code','stock']),async (req, res) => {
+// router.post("/",handlePolicies('admin'),verifyRequiredBody(['title', 'description', 'price', 'thumbnail','code','stock']),async (req, res) => {
+//   try {
+//     const socketServer = req.app.get("socketServer");
+//     const id = await manager.add(req.body);
+//     res.status(200).send({
+//       origin: "server1",
+//       payload:req.body,
+//     });
+//     socketServer.emit("productsChanged", req.body);
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(400).send({ origin: "server1", payload: error.message });
+//   }
+// });
+router.post("/",verifyRequiredBody(['title', 'description', 'price', 'thumbnail','code','stock']),async (req, res) => {
   try {
     const socketServer = req.app.get("socketServer");
     const id = await manager.add(req.body);

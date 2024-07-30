@@ -77,8 +77,8 @@ const expressInstance = app.listen(config.PORT, async() => {
   app.use(errorsHandler);
   //MOCKINS
   app.get('/mockingproducts', async(req, res) => {
-    const fakeProducts = await generateMockProducts(50);
-    res.status(200).send({ststus:"ok",payload:fakeProducts})
+    const fakeProducts = await generateMockProducts(1);
+    res.status(200).send(fakeProducts[0])
   });
 
   console.log(`Servidor activo en puerto ${config.PORT} PID ${process.pid}`);

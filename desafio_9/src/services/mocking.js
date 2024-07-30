@@ -4,7 +4,7 @@ export const generateMockProducts = async (qty) =>{
   const products = [];
   for (let i = 0; i < qty; i++) {
     products.push({
-        title: faker.commerce.productName(),
+      title: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       price: parseFloat(faker.commerce.price()),
       thumbnail: faker.image.url(),
