@@ -33,21 +33,8 @@ router.get("/:pid", async (req, res) => {
     res.send({ status: 0, payload: "El producto no existe" });
   }
 });
-// router.post("/",handlePolicies('admin'),verifyRequiredBody(['title', 'description', 'price', 'thumbnail','code','stock']),async (req, res) => {
-//   try {
-//     const socketServer = req.app.get("socketServer");
-//     const id = await manager.add(req.body);
-//     res.status(200).send({
-//       origin: "server1",
-//       payload:req.body,
-//     });
-//     socketServer.emit("productsChanged", req.body);
-//   } catch (error) {
-//     console.error("Error:", error);
-//     res.status(400).send({ origin: "server1", payload: error.message });
-//   }
-// });
-router.post("/",verifyRequiredBody(['title', 'description', 'price', 'thumbnail','code','stock']),async (req, res) => {
+
+router.post("/",handlePolicies('admin'),verifyRequiredBody(['title', 'description', 'price', 'thumbnail','code','stock']),async (req, res) => {
   try {
     const socketServer = req.app.get("socketServer");
     const id = await manager.add(req.body);
@@ -79,19 +66,33 @@ router.put("/:pid",handlePolicies('admin'), async (req, res) => {
     res.status(400).send({ origin: "server1", payload: error.message });
   }
 });
-router.delete("/:pid",handlePolicies('admin'), async (req, res) => {
+
+router.delete('/:pid', handlePolicies('admin'), async (req, res) => {
   try {
-    const socketServer = req.app.get("socketServer");//referencia global del socketServer
-    const filter = { _id: req.params.pid };
-    await manager.delete(filter);
-    res.status(200).send({
-      origin: "server1",
-      payload: `Se elimino el producto con id: ${parseInt(req.params.pid)}`,
-    });
-    socketServer.emit("productsChanged", { id: req.params.pid, action: 'deleted'});
+      const { pid } = req.params;
+
+      const socketServer = req.app.get('socketServer'); 
+      const result = await manager.delete({ _id: pid });
+
+      socketServer.emit('productsChanged', { message: 'Producto eliminado' });
+
+      if (result) {
+          res.status(200).send({
+              origin: "server1",
+              message: "Producto eliminado exitosamente."
+          });
+      } else {
+          res.status(404).send({
+              origin: "server1",
+              message: "Producto no encontrado."
+          });
+      }
   } catch (error) {
-    console.error("Error:", error);
-    res.status(400).send({ origin: "server1", payload: error.message });
+      console.error('Error al eliminar el producto:', error);
+      res.status(500).send({
+          origin: "server1",
+          message: "Error al eliminar el producto."
+      });
   }
 });
 

@@ -1,9 +1,0 @@
-{"level":"error","message":"Tue Jul 30 2024 GET /login"}
-{"level":"error","message":"Tue Jul 30 2024 GET /static/css/index.css"}
-{"level":"error","message":"Tue Jul 30 2024 GET /api/sessions/ghlogin"}
-{"level":"error","message":"Tue Jul 30 2024 GET /api/sessions/ghlogincallback?code=bbe45b932a6c37664402"}
-{"level":"error","message":"Tue Jul 30 2024 GET /products"}
-{"level":"error","message":"Tue Jul 30 2024 GET /static/css/index.css"}
-{"level":"error","message":"Tue Jul 30 2024 GET /api/sessions/logout?"}
-{"level":"error","message":"Tue Jul 30 2024 GET /login"}
-{"level":"error","message":"Tue Jul 30 2024 GET /static/css/index.css"}

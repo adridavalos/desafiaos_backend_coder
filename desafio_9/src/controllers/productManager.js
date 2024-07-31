@@ -49,7 +49,7 @@ class ProductsManager {
 
   delete = async (id) => {
     try {
-      return await service.delete(filter);
+      return await service.delete(id);
     } catch (err) {
       return err.message;
     }

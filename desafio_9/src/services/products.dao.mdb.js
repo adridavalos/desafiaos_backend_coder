@@ -37,8 +37,9 @@ class ProductsManager {
 
     add = async (newData) => {
         try {
-            return await productsModel.create(newData);
+            return await productsModel.create(newData);;
         } catch (err) {
+            console.log('error al crear producto', err);
             return err.message;
         }
     };
@@ -55,6 +56,7 @@ class ProductsManager {
         try {
             return productsModel.findOneAndDelete(id);
         } catch (err) {
+
             return err.message;
         }
     };
