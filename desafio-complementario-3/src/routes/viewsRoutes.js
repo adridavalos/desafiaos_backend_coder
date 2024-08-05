@@ -55,6 +55,11 @@ router.get("/modify/:pid", async (req, res) => {
   
 });
 
+router.get('/reset-password', (req, res) => {
+  
+  res.render('resetPassword');
+});
+
 
 export default router;
 

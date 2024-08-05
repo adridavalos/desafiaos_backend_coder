@@ -97,6 +97,7 @@ class UsersManager {
 
   update = async (filter, update, options) => {
     try {
+
       return await usersModel.findOneAndUpdate(filter, update, options);
     } catch (err) {
       return err.message;
