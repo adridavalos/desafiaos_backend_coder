@@ -129,33 +129,5 @@ router.post("/register", verifyRequiredBody(['firstName', 'lastName', 'email', '
   }
 });
 
-router.get('/email', async (req, res) => {
-  try {
-    const confirmation = await transport.sendMail({
-      from: `Sistema Coder <${config.GMAIL_APP_USER}>`,
-      to: 'adavalos654@gmail.com',
-      subject: 'Modificar contraseña',
-      html: `
-        <h1>Ecommerce</h1>
-        <p>Haz clic en el siguiente botón para modificar tu contraseña:</p>
-        <a href="http://localhost:8080/reset-password" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">
-          Modificar Contraseña
-        </a>`
-    });
-    res.render('resetEmailSent', { message: 'Se ha enviado un correo electrónico para la recuperación de contraseña. Revisa tu bandeja de entrada.' });
-  } catch (err) {
-    res.status(500).send({ status: 'Err', data: err.message });
-  }
-});
-router.put('/update', async(req,res)=>{
-  try {
-    const datosAModificar = req.body;
-
-    
-  } catch (err) {
-    res.status(500).send({ status: 'Error', message: err.message });
-  }
-})
-
 
 export default router;

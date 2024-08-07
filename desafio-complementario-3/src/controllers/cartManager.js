@@ -3,9 +3,6 @@ import cartsModel from "../models/carts.model.js";
 import productModel from "../models/products.model.js";
 import ticketManager from "./ticketManager.js";
 
-//FILE SYSTEM
-import fs from "fs";
-
 class cartManager {
   constructor() {}
   async addCart(userId) {
