@@ -47,17 +47,10 @@ router.get("/login", (req, res) => {
 router.get("/modify/:pid", async (req, res) => {
   
   const product = await manager.getById( req.params.pid);
-  console.log(product);
   const user = current(req);
-  console.log(user);
   
   res.status(200).render("modifyProduct", {product:product , user:user});
   
-});
-
-router.get('/reset-password', (req, res) => {
-  
-  res.render('resetPassword');
 });
 
 

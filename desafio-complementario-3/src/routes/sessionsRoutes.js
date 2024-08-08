@@ -1,7 +1,6 @@
 import { Router } from "express"; 
 import passport from "passport";
 
-import nodemailer from 'nodemailer'
 import config from "../config.js";
 import usersManager from "../controllers/users.manager.mdb.js"
 import { verifyRequiredBody, handlePolicies } from "../services/utils.js";
@@ -12,15 +11,6 @@ const router = Router();
 
 const manager = new usersManager();
 const cartsManager = new cartManager();
-
-const transport = nodemailer.createTransport({
-  service: 'gmail',
-  port: 587,
-  auth: {
-      user: config.GMAIL_APP_USER,
-      pass: config.GMAIL_APP_PASS
-  }
-});
 
 initAuthStrategies();
 

@@ -10,7 +10,7 @@ import cors from 'cors';
 import productsRouter from "./routes/productsRoutes.js";
 import cartRouter from "./routes/cartsRoutes.js";
 import viewRouter from "./routes/viewsRoutes.js";
-import resetPassword from "./routes/resetPassword.js"
+import resetPasswordRoutes from "./routes/resetPasswordRoutes.js"
 import config from "./config.js";
 import initSoket from "./services/sockets.js";
 import sessionRouter from "./routes/sessionsRoutes.js";
@@ -72,7 +72,7 @@ const expressInstance = app.listen(config.PORT, async() => {
   app.use("/api/carts", cartRouter);
   app.use("/", viewRouter);
   app.use("/api/sessions", sessionRouter);
-  app.use("/api/reset-password", resetPassword);
+  app.use("/api/reset-password", resetPasswordRoutes);
   //app.use("/api/test",new TestRouter().getRouter());
   app.use("/static", express.static(`${config.DIRNAME}/public`));
   //Manejo de error

@@ -103,6 +103,17 @@ class UsersManager {
       return err.message;
     }
   };
+  
+  updatePassword = async (filter, newPassword, options) => {
+    try {
+     
+      const hashedPassword = createHash(newPassword);
+      const update = { $set: { password: hashedPassword } };
+      return await usersModel.findOneAndUpdate(filter, update, options);
+    } catch (err) {
+      return err.message;
+    }
+  };
 
   delete = async (filter) => {
     try {

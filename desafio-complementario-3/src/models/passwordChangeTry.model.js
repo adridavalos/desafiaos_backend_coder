@@ -6,7 +6,7 @@ mongoose.pluralize(null);
 const collection = 'password-change-Try';
 
 const schema = new mongoose.Schema({
-    user_id:{type:mongoose.Schema.Types.ObjectId, required: true},
+    user_Id:{type:mongoose.Schema.Types.ObjectId, required: true},
     expiresAt: {type: Date,required: true}
   
 },{
