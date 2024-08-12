@@ -34,7 +34,7 @@ router.get("/:pid", async (req, res) => {
   }
 });
 
-router.post("/", handlePolicies('admin'), verifyRequiredBody(['title', 'description', 'price', 'thumbnail', 'code', 'stock']), async (req, res) => {
+router.post("/", handlePolicies(['admin','premium' ]), verifyRequiredBody(['title', 'description', 'price', 'thumbnail', 'code', 'stock']), async (req, res) => {
   try {
     const socketServer = req.app.get("socketServer");
     const id = await manager.add(req.body);

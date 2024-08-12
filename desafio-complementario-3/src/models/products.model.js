@@ -14,6 +14,7 @@ const schema = new mongoose.Schema({
     stock: { type: Number, required: true },
     status: { type: Boolean, default: true },
     category: { type: Number, required: true },
+    owner:{type: String, requiered: true},
 });
 schema.plugin(mongoosePaginate);//paginate
 const model = mongoose.model(collection, schema);

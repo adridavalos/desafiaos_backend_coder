@@ -29,6 +29,13 @@ class UsersManager {
       return err.message;
     }
   };
+  getOne = async (filter) => {
+    try {
+      return await usersModel.findOne(filter).lean();
+    } catch (err) {
+      return err.message;
+    }
+  };
 
   Aggregated = async (newUser) => {
     try {
@@ -71,13 +78,7 @@ class UsersManager {
     }
   };
 
-  getOne = async (filter) => {
-    try {
-      return await usersModel.findOne(filter).lean();
-    } catch (err) {
-      return err.message;
-    }
-  };
+  
 
   getPaginated = async (filter, options) => {
     try {
@@ -96,12 +97,7 @@ class UsersManager {
   };
 
   update = async (filter, update, options) => {
-    try {
-
-      return await usersModel.findOneAndUpdate(filter, update, options);
-    } catch (err) {
-      return err.message;
-    }
+    return  usersModel.findOneAndUpdate(filter,  { $set: update }, options);
   };
   
   updatePassword = async (filter, newPassword, options) => {

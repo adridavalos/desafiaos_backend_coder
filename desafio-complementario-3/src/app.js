@@ -16,6 +16,7 @@ import initSoket from "./services/sockets.js";
 import sessionRouter from "./routes/sessionsRoutes.js";
 import MongoSingleton from './services/mongo.singleton.js'
 //import TestRouter from "./routes/testRouter.js";
+import usersRouter from "./routes/usersRoutes.js"
 
 import { generateMockProducts } from "./services/mocking.js";
 import errorsHandler from "./services/errors/errors.handler.js";
@@ -73,6 +74,7 @@ const expressInstance = app.listen(config.PORT, async() => {
   app.use("/", viewRouter);
   app.use("/api/sessions", sessionRouter);
   app.use("/api/reset-password", resetPasswordRoutes);
+  app.use("/api/users",usersRouter);
   //app.use("/api/test",new TestRouter().getRouter());
   app.use("/static", express.static(`${config.DIRNAME}/public`));
   //Manejo de error
