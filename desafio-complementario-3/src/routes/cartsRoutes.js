@@ -2,9 +2,11 @@ import { Router } from "express";
 import cartManager from "../controllers/cartManager.js";
 import config from "../config.js"
 import { handlePolicies, current } from "../services/utils.js";
+import proManager from "../controllers/productManager.js";
 
 const router = Router();
 const manager = new cartManager();
+const productManager = new proManager();
 
 router.param("pid", async (req, res, next, pid) => {
   if (!config.MONGODB_ID_REGEX.test(req.params.pid)) {
@@ -74,21 +76,43 @@ router.get("/:cid", async (req, res) => {
 // producto.
 
 
-router.post("/:cid/product/:pid",handlePolicies('user'), async (req, res) => {
+router.post("/:cid/product/:pid", handlePolicies(['user', 'premium']), async (req, res) => {
   try {
     const idCart = req.params.cid;
     const idProduct = req.params.pid;
     const { quantity } = req.body;
+    const user = current(req);
+
+    const product = await productManager.getById(idProduct);
+
+    if (!product) {
+      return res.status(404).send({
+        origin: "server1",
+        message: "Producto no encontrado.",
+      });
+    }
+    if (user.role === "premium" && user._id === product.owner) {
+      return res.status(403).send({
+        origin: "server1",
+        message: "No puedes agregar tu propio producto al carrito.",
+      });
+    }
+
     await manager.addToCartId(idCart, idProduct, quantity);
+
     res.status(200).send({
       origin: "server1",
       payload: idCart,
     });
   } catch (error) {
     console.error("Error:", error);
-    res.status(400).send({ origin: "server1", payload: error.message });
+    res.status(400).send({
+      origin: "server1",
+      payload: error.message,
+    });
   }
 });
+
 //debe eliminar del carrito el producto seleccionado
 router.delete("/:cid/product/:pid", async (req, res) => {
   try {

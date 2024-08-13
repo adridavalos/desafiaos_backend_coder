@@ -35,6 +35,31 @@ router.get("/products",handlePolicies('user'), async (req, res) => {
   const userModificado = { ...user, _id: userId };
   res.status(200).render("products",{ products: products , user:userModificado, idCart: carritoUsu._id.toString()});
 });
+router.get("/products-premium", handlePolicies('premium'), async (req, res) => {
+  if (!req.session.user) return res.redirect("/login");
+  
+  const user = current(req);
+  const limit = req.query.limit;
+  const page = req.query.page;
+  const query = req.query.query;
+  const sort = req.query.sort;
+  
+  const allProducts = await manager.getAll(limit, page, query, sort);
+  
+  //const userProducts = allProducts.filter(product => product.owner === user._id.toString());
+  const otherProducts = allProducts.filter(product => product.owner !== user._id.toString());
+  
+  const userId = user._id;
+  const carritoUsu = await cartsManager.getCartByUsuId(userId);
+  const userModificado = { ...user, _id: userId };
+
+  res.status(200).render("productsPremium", {
+    user: userModificado,
+    idCart: carritoUsu._id.toString(),
+    otherProducts
+  });
+});
+
 
 router.get("/register", (req, res) => {
   res.render("register", {});

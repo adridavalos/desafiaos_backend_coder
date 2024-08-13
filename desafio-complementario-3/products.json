@@ -1,0 +1,223 @@
+[
+    {
+      "title": "Producto 1",
+      "description": "Descripción del producto 1",
+      "price": 29.99,
+      "thumbnail": "http://example.com/thumbnail1.jpg",
+      "code": "P001",
+      "stock": 10,
+      "status": true,
+      "category": 1,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 2",
+      "description": "Descripción del producto 2",
+      "price": 39.99,
+      "thumbnail": "http://example.com/thumbnail2.jpg",
+      "code": "P002",
+      "stock": 5,
+      "status": true,
+      "category": 2,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 3",
+      "description": "Descripción del producto 3",
+      "price": 19.99,
+      "thumbnail": "http://example.com/thumbnail3.jpg",
+      "code": "P003",
+      "stock": 20,
+      "status": true,
+      "category": 1,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 4",
+      "description": "Descripción del producto 4",
+      "price": 49.99,
+      "thumbnail": "http://example.com/thumbnail4.jpg",
+      "code": "P004",
+      "stock": 8,
+      "status": true,
+      "category": 3,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 5",
+      "description": "Descripción del producto 5",
+      "price": 59.99,
+      "thumbnail": "http://example.com/thumbnail5.jpg",
+      "code": "P005",
+      "stock": 15,
+      "status": true,
+      "category": 2,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 6",
+      "description": "Descripción del producto 6",
+      "price": 89.99,
+      "thumbnail": "http://example.com/thumbnail6.jpg",
+      "code": "P006",
+      "stock": 12,
+      "status": true,
+      "category": 3,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 7",
+      "description": "Descripción del producto 7",
+      "price": 15.99,
+      "thumbnail": "http://example.com/thumbnail7.jpg",
+      "code": "P007",
+      "stock": 30,
+      "status": true,
+      "category": 1,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 8",
+      "description": "Descripción del producto 8",
+      "price": 25.99,
+      "thumbnail": "http://example.com/thumbnail8.jpg",
+      "code": "P008",
+      "stock": 22,
+      "status": true,
+      "category": 2,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 9",
+      "description": "Descripción del producto 9",
+      "price": 35.99,
+      "thumbnail": "http://example.com/thumbnail9.jpg",
+      "code": "P009",
+      "stock": 9,
+      "status": true,
+      "category": 3,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 10",
+      "description": "Descripción del producto 10",
+      "price": 45.99,
+      "thumbnail": "http://example.com/thumbnail10.jpg",
+      "code": "P010",
+      "stock": 11,
+      "status": true,
+      "category": 1,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 11",
+      "description": "Descripción del producto 11",
+      "price": 55.99,
+      "thumbnail": "http://example.com/thumbnail11.jpg",
+      "code": "P011",
+      "stock": 7,
+      "status": true,
+      "category": 2,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 12",
+      "description": "Descripción del producto 12",
+      "price": 75.99,
+      "thumbnail": "http://example.com/thumbnail12.jpg",
+      "code": "P012",
+      "stock": 6,
+      "status": true,
+      "category": 3,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 13",
+      "description": "Descripción del producto 13",
+      "price": 85.99,
+      "thumbnail": "http://example.com/thumbnail13.jpg",
+      "code": "P013",
+      "stock": 13,
+      "status": true,
+      "category": 1,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 14",
+      "description": "Descripción del producto 14",
+      "price": 95.99,
+      "thumbnail": "http://example.com/thumbnail14.jpg",
+      "code": "P014",
+      "stock": 10,
+      "status": true,
+      "category": 2,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 15",
+      "description": "Descripción del producto 15",
+      "price": 105.99,
+      "thumbnail": "http://example.com/thumbnail15.jpg",
+      "code": "P015",
+      "stock": 4,
+      "status": true,
+      "category": 3,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 16",
+      "description": "Descripción del producto 16",
+      "price": 115.99,
+      "thumbnail": "http://example.com/thumbnail16.jpg",
+      "code": "P016",
+      "stock": 18,
+      "status": true,
+      "category": 1,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 17",
+      "description": "Descripción del producto 17",
+      "price": 125.99,
+      "thumbnail": "http://example.com/thumbnail17.jpg",
+      "code": "P017",
+      "stock": 9,
+      "status": true,
+      "category": 2,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 18",
+      "description": "Descripción del producto 18",
+      "price": 135.99,
+      "thumbnail": "http://example.com/thumbnail18.jpg",
+      "code": "P018",
+      "stock": 12,
+      "status": true,
+      "category": 3,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    },
+    {
+      "title": "Producto 19",
+      "description": "Descripción del producto 19",
+      "price": 145.99,
+      "thumbnail": "http://example.com/thumbnail19.jpg",
+      "code": "P019",
+      "stock": 6,
+      "status": true,
+      "category": 1,
+      "owner": "6696d9e87966889d18b245b3"
+    },
+    {
+      "title": "Producto 20",
+      "description": "Descripción del producto 20",
+      "price": 155.99,
+      "thumbnail": "http://example.com/thumbnail20.jpg",
+      "code": "P020",
+      "stock": 14,
+      "status": true,
+      "category": 2,
+      "owner": "66bbae3a9080ca5f202ef1e3"
+    }
+  ]
+  

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import ProductManager from "../controllers/productManager.js";
 import config from '../config.js';
-import { handlePolicies,verifyRequiredBody } from "../services/utils.js";
+import { handlePolicies,verifyRequiredBody, current } from "../services/utils.js";
 
 const router = Router();
 const manager = new ProductManager();
@@ -37,7 +37,14 @@ router.get("/:pid", async (req, res) => {
 router.post("/", handlePolicies(['admin','premium' ]), verifyRequiredBody(['title', 'description', 'price', 'thumbnail', 'code', 'stock']), async (req, res) => {
   try {
     const socketServer = req.app.get("socketServer");
-    const id = await manager.add(req.body);
+
+    const user = current(req);
+
+    const product = {
+      ...req.body,
+      owner: user._id
+    };
+    const id = await manager.add(product);
 
     socketServer.emit("productsChanged",  req.body);
 
@@ -75,34 +82,55 @@ router.put("/:pid",handlePolicies('admin'), async (req, res) => {
   }
 });
 
-router.delete('/:pid', handlePolicies('admin'), async (req, res) => {
+router.delete('/:pid', handlePolicies(['admin', 'premium']), async (req, res) => {
   try {
-      const { pid } = req.params;
+    const { pid } = req.params;
+    const user = current(req);
+    const product = await manager.getById(pid);
 
+    if (!product) {
+      return res.status(404).send({
+        origin: "server1",
+        message: "Producto no encontrado."
+      });
+    }
+
+    if (user.role === "admin") {
       const socketServer = req.app.get('socketServer'); 
       const result = await manager.delete({ _id: pid });
 
       socketServer.emit('productsChanged', { message: 'Producto eliminado' });
 
-      if (result) {
-          res.status(200).send({
-              origin: "server1",
-              message: "Producto eliminado exitosamente."
-          });
-      } else {
-          res.status(404).send({
-              origin: "server1",
-              message: "Producto no encontrado."
-          });
-      }
-  } catch (error) {
-      console.error('Error al eliminar el producto:', error);
-      res.status(500).send({
-          origin: "server1",
-          message: "Error al eliminar el producto."
+      res.status(200).send({
+        origin: "server1",
+        message: "Producto eliminado exitosamente."
       });
+    } else if (user.role === "premium" && user._id === product.owner) {
+      const socketServer = req.app.get('socketServer'); 
+      const result = await manager.delete({ _id: pid });
+
+      socketServer.emit('productsChanged', { message: 'Producto eliminado' });
+
+      res.status(200).send({
+        origin: "server1",
+        message: "Producto eliminado exitosamente."
+      });
+    } else {
+      res.status(403).send({
+        origin: "server1",
+        message: "No tienes permiso para eliminar este producto."
+      });
+    }
+    
+  } catch (error) {
+    console.error('Error al eliminar el producto:', error);
+    res.status(500).send({
+      origin: "server1",
+      message: "Error al eliminar el producto."
+    });
   }
 });
+
 
 router.all('*', async(req,res)=>{
   res.status(404).send({origin: config.SERVER, payload:null, error:'No se encuentra la ruta solicitada'});

@@ -32,8 +32,10 @@ router.post("/login",verifyRequiredBody(["email", "password"]),
         }
         if (req.user.role === 'admin') {
           res.redirect("/realtimeproducts");
-        } else {
+        } else if (req.user.role === 'user') {
           res.redirect("/products");
+        }else {
+          res.redirect("/products-premium");
         }
       });
     } catch (err) {

@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 
 import errorMessages from './errors/enums.js';
 import CustomError from './errors/customError.class.js';
+import config from '../config.js';
 
 export const createHash = password => bcrypt.hashSync(password,bcrypt.genSaltSync(10));
 
