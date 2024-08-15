@@ -1,6 +1,6 @@
 <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
-      <a href="/realtimeproducts" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+      <a href="/products" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
         <svg class="bi me-2" width="40" height="32">
           <use xlink:href="#bootstrap"></use>
         </svg>
@@ -129,7 +129,6 @@
          // Evita que el formulario se envíe si hay campos no válidos
         evt.preventDefault();
 
-        // Verifica la validez del formulario
         if (!productForm.checkValidity()) {
             alert('Por favor, complete todos los campos antes de enviar.');
 
@@ -204,8 +203,5 @@
     alert('Error en la solicitud.');
   }
 }
-
-
-
  
 </script>

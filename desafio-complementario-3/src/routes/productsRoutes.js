@@ -64,7 +64,7 @@ router.post("/", handlePolicies(['admin','premium' ]), verifyRequiredBody(['titl
 });
 
 
-router.put("/:pid",handlePolicies('admin'), async (req, res) => {
+router.put("/:pid",handlePolicies(['admin','premium' ]), async (req, res) => {
   try {
     const socketServer = req.app.get("socketServer");
     const filter = { _id: req.params.pid };

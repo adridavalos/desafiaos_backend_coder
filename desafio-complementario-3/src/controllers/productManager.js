@@ -41,7 +41,8 @@ class ProductsManager {
 
   update = async (filter, update, options) => {
     try {
-      return await service.update(filter, update, options);
+      const normalizedData = new ProductDTO(update);
+      return await service.update(filter, normalizedData.product, options);
     } catch (err) {
       return err.message;
     }
