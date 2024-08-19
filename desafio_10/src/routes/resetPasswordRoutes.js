@@ -36,7 +36,7 @@ router.post("/email", async (req, res) => {
           html: `
             <h1>Ecommerce</h1>
             <p>Haz clic en el siguiente botón para modificar tu contraseña:</p>
-            <a href="http://localhost:8080/api/reset-password/${passwordChange._id.toString()}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">
+            <a href="http://localhost:${config.PORT}/api/reset-password/${passwordChange._id.toString()}" style="display: inline-block; padding: 10px 20px; font-size: 16px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 5px;">
               Modificar Contraseña
             </a>`
         });
