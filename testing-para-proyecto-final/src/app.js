@@ -8,6 +8,7 @@ import passport from 'passport';
 import cors from 'cors';
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUiExpress from 'swagger-ui-express';
+import cookieParser from 'cookie-parser';
 
 import productsRouter from "./routes/productsRoutes.js";
 import cartRouter from "./routes/cartsRoutes.js";
@@ -24,6 +25,7 @@ import { generateMockProducts } from "./services/mocking.js";
 import errorsHandler from "./services/errors/errors.handler.js";
 import addLogger from "./services/logging/logger.js";
 const app = express();
+app.use(cookieParser());
 
 const expressInstance = app.listen(config.PORT, async() => {
   //await mongoose.connect(config.MONGODB_URI);

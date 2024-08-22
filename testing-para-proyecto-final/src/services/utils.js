@@ -39,15 +39,26 @@ export const handlePolicies = (policies) => {
   };
 };
 export const current = (req) => {
-  if (!req.session.user) {
+  const userCookie = req.cookies['currentUser'];
+
+  if (!userCookie) {
     return null;
   }
+  try {
+    // Parseamos los datos del usuario de la cookie
+    const { user } = JSON.parse(userCookie);
+    const datosUser = user._doc
 
-  const { password, ...foundUser } = req.session.user;
-  const userWithIdAsString = {
-    ...foundUser,
-    _id: foundUser._id.toString()
-  };
-
-  return userWithIdAsString;
+    if (!user) {
+      return null;
+    }
+    const userWithIdAsString = {
+      ...datosUser,
+      _id: datosUser._id.toString(),
+    };
+    return userWithIdAsString;
+  } catch (error) {
+    console.error("Error parsing cookie:", error);
+    return null;
+  }
 };
