@@ -34,7 +34,7 @@ describe('Test DAO Products',function(){
     });
     it('getById() debe retornar un objeto coincidente con el criterio indicado', async function () {
 
-        const testId = '66c79c985abbe7ed89f775bf';
+        const testId = '66c7a036b1690d497d10b2b7';
 
         const result = await dao.getById(testId);
         expect(result).to.be.an('object');
@@ -53,7 +53,7 @@ describe('Test DAO Products',function(){
     });
     it('update() debe retornar un objeto con los datos modificados', async function () {
         const modifiedDescription = 'Descripcion Modificado desde el test';
-        const testId = '66c79c103e3d8b6b0bc32093';
+        const testId = '66c7a036b1690d497d10b2b7';
         const result = await dao.update({ _id: testId }, { description: modifiedDescription },{ new: true });
 
         expect(result).to.be.an('object');
@@ -69,6 +69,13 @@ describe('Test DAO Products',function(){
         expect(result.stock).to.be.equal(10);
         expect(result.status).to.be.true;
         expect(result.category).to.be.equal(1);
+    });
+    it('delete() debe borrar definitivamente el documento indicado', async function () {
+        const testId = '66c7a036b1690d497d10b2b7';
+        const result = await dao.delete(testId);
+
+        expect(result).to.be.an('object');
+        expect(result._id.toString()).to.be.equal(testId);
     });
 
 });
