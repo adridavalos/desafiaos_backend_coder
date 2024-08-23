@@ -16,25 +16,26 @@ const tesrProduct ={
       category: 1,
       owner: "66c777fb81255f42418e7097"};
 
+var testId = '';
+
 describe('Test DAO Products',function(){
 
     before(function () {
-       // mongoose.connection.collections.products.drop();
+        mongoose.connection.collections.products.drop();
     });
 
-    it('getAll() debe retornar un array de usuarios', async function () {
+    it('getAll() debe retornar un array de producto', async function () {
         const result = await dao.getAll();
         expect(result).to.be.an('array');
     });
-    it('add() debe retornar un objeto con los datos del nuevo usuario', async function () {
+    it('add() debe retornar un objeto con los datos del nuevo producto', async function () {
         const result = await dao.add(tesrProduct);
+        testId = result._id.toString();
         
         expect(result).to.be.an('object');
         expect(result._id).to.be.not.null;
     });
     it('getById() debe retornar un objeto coincidente con el criterio indicado', async function () {
-
-        const testId = '66c7a036b1690d497d10b2b7';
 
         const result = await dao.getById(testId);
         expect(result).to.be.an('object');
@@ -53,7 +54,6 @@ describe('Test DAO Products',function(){
     });
     it('update() debe retornar un objeto con los datos modificados', async function () {
         const modifiedDescription = 'Descripcion Modificado desde el test';
-        const testId = '66c7a036b1690d497d10b2b7';
         const result = await dao.update({ _id: testId }, { description: modifiedDescription },{ new: true });
 
         expect(result).to.be.an('object');
@@ -71,7 +71,6 @@ describe('Test DAO Products',function(){
         expect(result.category).to.be.equal(1);
     });
     it('delete() debe borrar definitivamente el documento indicado', async function () {
-        const testId = '66c7a036b1690d497d10b2b7';
         const result = await dao.delete(testId);
 
         expect(result).to.be.an('object');
