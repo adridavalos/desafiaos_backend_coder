@@ -99,6 +99,9 @@ class UsersManager {
   update = async (filter, update, options) => {
     return  usersModel.findOneAndUpdate(filter,  { $set: update }, options);
   };
+  updateDoc = async (filter, update, options) => {
+    return usersModel.findOneAndUpdate(filter, update, options);
+  };
   
   updatePassword = async (filter, newPassword, options) => {
     try {

@@ -13,73 +13,74 @@
       </div>
     </header>
 </div>
-<div class="container" >
-   <div class="row">
-      <div class="col-md-12 m-5 p-3">
-          <h3 class="mb-5">CARGAR PRODUCTO NUEVO</h3>
-          <form id="productForm" class="row g-3 needs-validation border" novalidate>
-              <div class="col-md-8">
-                <label for="validationCustom01" class="form-label">Titulo</label>
-                <input type="text" class="form-control" id="titulo"  required>
-                <div class="valid-feedback">
-                  Correcto!
-                </div>
-              </div>
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">Precio</label>
-                <input type="text" class="form-control" id="precio" required>
-                <div class="valid-feedback">
-                  Correcto!
-                </div>
-              </div>
-              <div class="col-md-8">
-                <label for="validationCustom02" class="form-label">Imagen</label>
-                <input type="text" class="form-control" id="thumbnail" required>
-                <div class="valid-feedback">
-                  Correcto!
-                </div>
-              </div>
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">Codigo</label>
-                <input type="text" class="form-control" id="codigo" required>
-                <div class="valid-feedback">
-                  Correcto!
-                </div>
-              </div>
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">Stock</label>
-                <input type="number" class="form-control" id="stock" required>
-                <div class="valid-feedback">
-                  Correcto!
-                </div>
-              </div>
-               <div class="col-md-4">
-                  <select class="form-select" aria-label="Default select example" id="status" required>
-                      <option selected>Estado</option>
-                      <option value="true">True</option>
-                      <option value="false">False</option>
-                  </select>
-              </div>
-              <div class="col-md-4">
-                <label for="validationCustom02" class="form-label">Categoria</label>
-                <input type="text" class="form-control" id="categoria" required>
-                <div class="valid-feedback">
-                  Correcto!
-                </div>
-              </div>
-              <div class="col-12">
-                <label for="validationTextarea" class="form-label">Descripcion</label>
-                <textarea class="form-control" id="descripcion" placeholder="Ingrese descripcion" required></textarea>
-                <div class="invalid-feedback">
-                  Ingrese descripcion
-                </div>
-              </div>
-              <div class="col-12  ml-3">
-                <button class="btn btn-primary mb-3 " type="submit">Cargar Producto</button>
-              </div>
-          </form>
-      </div>
-   </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 m-5 p-3">
+      <h3 class="mb-5">CARGAR PRODUCTO NUEVO</h3>
+      <form id="productForm" class="row g-3 needs-validation border" novalidate enctype="multipart/form-data"> <!-- Modificación aquí -->
+        <div class="col-md-8">
+          <label for="validationCustom01" class="form-label">Titulo</label>
+          <input type="text" class="form-control" id="titulo" name="title" required>
+          <div class="valid-feedback">
+            Correcto!
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom02" class="form-label">Precio</label>
+          <input type="text" class="form-control" id="precio" name="price" required>
+          <div class="valid-feedback">
+            Correcto!
+          </div>
+        </div>
+        <div class="col-md-8">
+          <label for="validationCustom02" class="form-label">Imagen</label>
+          <input type="file" class="form-control" id="thumbnail" name="thumbnail" required> <!-- Cambiado a type="file" -->
+          <div class="valid-feedback">
+            Correcto!
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom02" class="form-label">Codigo</label>
+          <input type="text" class="form-control" id="codigo" name="code" required>
+          <div class="valid-feedback">
+            Correcto!
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom02" class="form-label">Stock</label>
+          <input type="number" class="form-control" id="stock" name="stock" required>
+          <div class="valid-feedback">
+            Correcto!
+          </div>
+        </div>
+        <div class="col-md-4">
+          <select class="form-select" aria-label="Default select example" id="status" name="status" required>
+            <option selected disabled>Estado</option>
+            <option value="true">True</option>
+            <option value="false">False</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label for="validationCustom02" class="form-label">Categoria</label>
+          <input type="text" class="form-control" id="categoria" name="category" required>
+          <div class="valid-feedback">
+            Correcto!
+          </div>
+        </div>
+        <div class="col-12">
+          <label for="validationTextarea" class="form-label">Descripcion</label>
+          <textarea class="form-control" id="descripcion" name="description" placeholder="Ingrese descripcion" required></textarea>
+          <div class="invalid-feedback">
+            Ingrese descripcion
+          </div>
+        </div>
+        <div class="col-12 ml-3">
+          <button class="btn btn-primary mb-3" type="submit">Cargar Producto</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 
@@ -126,46 +127,35 @@
 
   const productForm = document.getElementById('productForm');
   productForm.addEventListener('submit', async (evt) => {
-         // Evita que el formulario se envíe si hay campos no válidos
-        evt.preventDefault();
+    evt.preventDefault();
 
-        // Verifica la validez del formulario
-        if (!productForm.checkValidity()) {
-            alert('Por favor, complete todos los campos antes de enviar.');
+    if (!productForm.checkValidity()) {
+      alert('Por favor, complete todos los campos antes de enviar.');
+      productForm.classList.add('was-validated');
+      return;
+    }
 
-            productForm.classList.add('was-validated');
-            return;
-        }
+    const formData = new FormData(productForm);
 
-        const title = document.getElementById('titulo').value;
-        const description = document.getElementById('descripcion').value;
-        const price = document.getElementById('precio').value;
-        const thumbnail = document.getElementById('thumbnail').value;
-        const code = document.getElementById('codigo').value;
-        const stock = document.getElementById('stock').value;
-        const status = document.getElementById('status').value;
-        const category = document.getElementById('categoria').value;
+    try {
+      const response = await fetch('/api/products/products', {
+        method: 'POST',
+        body: formData
+      });
 
-        try {
-            const response = await fetch('/api/products', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ title, description, price, thumbnail, code, stock, status, category })
-            });
+      const result = await response.json();
 
-            const result = await response.json();
-
-            if (response.ok) {
-              alert('Producto cargado exitosamente.');
-              console.log('Producto cargado exitosamente:', result);
-            } else {
-              alert(`Error al cargar el producto: ${result.message}`);
-              console.error('Error al cargar el producto:', result);
-            }
-        } catch (error) {
-            alert('Error al cargar el producto. Por favor, intente nuevamente más tarde.');
-            console.error('Error:', error);
-        }
+      if (response.ok) {
+        alert('Producto cargado exitosamente.');
+        console.log('Producto cargado exitosamente:', result);
+      } else {
+        alert(`Error al cargar el producto: ${result.message}`);
+        console.error('Error al cargar el producto:', result);
+      }
+    } catch (error) {
+      alert('Error al cargar el producto. Por favor, intente nuevamente más tarde.');
+      console.error('Error:', error);
+    }
   });
 
   async function deleteProduct(productId) {

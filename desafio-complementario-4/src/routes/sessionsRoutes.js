@@ -15,13 +15,15 @@ const cartsManager = new cartManager();
 initAuthStrategies();
 
 
-router.post("/login", 
-  verifyRequiredBody(["email", "password"]),
-  passport.authenticate('login', {failureRedirect: `/login?error=${encodeURI("Usuario o clave no válidos")}`}),
-  async (req, res) => {
-    try { 
-      // Guarda el usuario en la sesión
+router.post("/login", verifyRequiredBody(["email", "password"]),passport.authenticate('login', {failureRedirect: `/login?error=${encodeURI("Usuario o clave no válidos")}`}),async (req, res) => {
+    try {
+
       req.session.user = req.user;
+      await manager.updateDoc(
+        { _id: req.user._id },
+        { last_connection: new Date() }, 
+        { new: true } 
+      );
       req.session.save((err) => {
         if (err) {
           return res.status(500).send({
@@ -37,10 +39,9 @@ router.post("/login",
            user: userWithoutPassword
          }), {
            httpOnly: true,
-           maxAge: 24 * 60 * 60 * 1000 // 1 día de duración
+           maxAge: 24 * 60 * 60 * 1000 
         });
 
-        // Redirige según el rol del usuario
         if (req.user.role === 'admin') {
           res.redirect("/realtimeproducts");
         } else{ 
@@ -60,6 +61,11 @@ router.get("/ghlogin",passport.authenticate("ghlogin", { scope: ["user"] }),asyn
 router.get("/ghlogincallback", passport.authenticate("ghlogin", { failureRedirect: `/login?error=${encodeURI("Error al identificar con Github")}` }), async (req, res) => {  
   try {
     req.session.user = req.user;
+    await manager.updateDoc(
+      { _id: req.user._id },
+      { last_connection: new Date() }, 
+      { new: true } 
+    );
     req.session.save((err) => {
       if (err) {
         return res
@@ -115,7 +121,11 @@ router.post("/register", verifyRequiredBody(['firstName', 'lastName', 'email', '
 
       await cartsManager.addCart(result._id.toHexString()); 
       req.session.user = result;
-
+      await manager.updateDoc(
+        { _id: result._id },
+        { last_connection: new Date() }, 
+        { new: true } 
+      );
       req.session.save((err) => {
         if (err) {
           return res
@@ -128,9 +138,9 @@ router.post("/register", verifyRequiredBody(['firstName', 'lastName', 'email', '
           user: userWithoutPassword
         }), {
           httpOnly: true,
-          maxAge: 24 * 60 * 60 * 1000 // 1 día de duración
+          maxAge: 24 * 60 * 60 * 1000
         });
-
+        
           if (result.role === 'admin') {
             return res.redirect("/realtimeproducts");
             

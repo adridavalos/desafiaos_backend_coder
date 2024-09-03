@@ -2,6 +2,7 @@ import { Router } from "express";
 import ProductManager from "../controllers/productManager.js";
 import config from '../config.js';
 import { handlePolicies,verifyRequiredBody, current } from "../services/utils.js";
+import { uploader } from "../services/uploader.js";
 
 const router = Router();
 const manager = new ProductManager();
@@ -34,37 +35,38 @@ router.get("/:pid", async (req, res) => {
   }
 });
 
-router.post("/", handlePolicies(['admin','premium' ]), verifyRequiredBody(['title', 'description', 'price', 'thumbnail', 'code', 'stock']), async (req, res) => {
-  try {
-    const socketServer = req.app.get("socketServer");
+router.post("/products", handlePolicies(['admin', 'premium']),uploader.single('thumbnail'), async (req, res) => {
+    try {
+      const socketServer = req.app.get("socketServer");
+      const user = current(req);
 
-    const user = current(req);
+      const product = {
+        ...req.body,
+        owner: user._id,
+        thumbnail: req.file ? req.file.path : ''
+      };
 
-    const product = {
-      ...req.body,
-      owner: user._id
-    };
-    const id = await manager.add(product);
+      const id = await manager.add(product); 
 
-    socketServer.emit("productsChanged",  req.body);
+      socketServer.emit("productsChanged", product);
 
-    res.status(200).json({
-      origin: "server1",
-      message: "Producto agregado exitosamente",
-      product: req.body,
-    });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).json({
-      origin: "server1",
-      message: "Error al agregar el producto",
-      error: error.message,
-    });
+      res.status(200).json({
+        origin: "server1",
+        message: "Producto agregado exitosamente",
+        product: product,
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      res.status(500).json({
+        origin: "server1",
+        message: "Error al agregar el producto",
+        error: error.message,
+      });
+    }
   }
-});
+);
 
-
-router.put("/:pid",handlePolicies(['admin','premium' ]), async (req, res) => {
+router.put("/:pid",handlePolicies(['admin','premium' ]),uploader.array('documents', 3), async (req, res) => {
   try {
     const socketServer = req.app.get("socketServer");
     const filter = { _id: req.params.pid };

@@ -46,12 +46,17 @@ export const current = (req) => {
   }
   try {
     const { user } = JSON.parse(userCookie);
-    const datosUser = user._doc
-    console.log(user );
-    console.log(datosUser + "hola carola");
     if (!user) {
       return null;
+    };
+
+    var datosUser = {};
+    if (user._doc) {
+      datosUser = user._doc;
+    } else {
+      datosUser = user;
     }
+    
     const userWithIdAsString = {
       ...datosUser,
       _id: datosUser._id.toString(),

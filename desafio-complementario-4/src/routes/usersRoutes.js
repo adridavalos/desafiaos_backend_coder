@@ -27,8 +27,32 @@ router.put('/:uid', async(req,res)=>{
 
 });
 router.post('/:uid/documents', uploader.array('documents', 3), async(req,res)=>{
-    console.log(req.files);
-    res.status(200).send({ status: 'OK', payload: 'Imágenes subidas', files: req.files });
+    const { uid } = req.params;
+    try {
+         if (req.files && req.files.length > 0) {
+             const documents = req.files.map(file => ({
+                name: file.originalname,
+                reference: file.path 
+             }))
+        
+            const docUser = await User.updateDoc(
+                { _id: uid },
+                { $push: { documents: { $each: documents } } }, 
+                { new: true }
+            );
+            
+            if (docUser) {
+                res.status(200).render("uploadSuccess");
+            } else {
+                res.status(404).render("uploadError");
+            }
+            
+        }else{
+            res.status(400).render("uploadError");
+        }        
+    } catch (error) {
+        res.status(500).json({ message: 'Error al subir documentos', error });
+    }
 
 });
 export default router;

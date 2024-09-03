@@ -83,7 +83,6 @@ router.get("/products", handlePolicies(['user', 'premium']), async (req, res) =>
       });
     } else {
       otherProducts = products.filter(product => product.owner !== user._id.toString());
-      console.log((otherProducts));
       res.status(200).render("productsPremium", {
         user: userModificado,
         idCart: carritoUsu._id.toString(),

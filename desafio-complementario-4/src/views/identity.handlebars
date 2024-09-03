@@ -5,16 +5,14 @@
     </div>
 
     <div class="card-body">
+      <label for="idDocument" class="form-label">Cargar Foto de Documento de Identidad</label>
       <form action="/api/users/{{user._id}}/documents" method="POST" enctype="multipart/form-data">
-        
         <div class="mb-3">
-          <label for="idDocument" class="form-label">Cargar Foto de Documento de Identidad</label>
-          <input type="file" class="form-control" id="idDocument" name="documents" multiple required>
+          <input type="file" class="form-control" name="documents" required multiple>
           <div class="form-text text-muted">
             Sube una imagen clara de tu documento de identidad para que podamos verificar tu cuenta.
           </div>
         </div>
-
         <button type="submit" class="btn btn-primary">Subir y Verificar</button>
       </form>
     </div>
