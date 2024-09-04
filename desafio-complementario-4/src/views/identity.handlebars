@@ -5,7 +5,7 @@
     </div>
 
     <div class="card-body">
-      <label for="idDocument" class="form-label">Cargar Foto de Documento de Identidad</label>
+      <label for="idDocument" class="form-label">Cargar Foto de Documento de Identidad, Comprobante de domicilio, Comprobante de estado de cuenta </label>
       <form action="/api/users/{{user._id}}/documents" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
           <input type="file" class="form-control" name="documents" required multiple>

@@ -26,6 +26,35 @@ router.put('/:uid', async(req,res)=>{
     }
 
 });
+router.put('/:uid', async (req, res) => {
+    const { uid } = req.params;
+
+    try {
+        
+        const user = await User.getById(uid);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        if (user.documents.length === 0) {
+            return res.status(400).json({ message: 'No se puede cambiar el rol porque el usuario no tiene documentos cargados.' });
+        }
+
+        const newRole = user.role === 'user' ? 'premium' : 'user';
+
+        const result = await User.update(
+            { _id: uid },
+            { role: newRole },
+            { new: true }
+        );
+
+        res.status(200).json({ message: `Rol cambiado a ${newRole}` });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error al cambiar el rol del usuario', error });
+    }
+});
+
 router.post('/:uid/documents', uploader.array('documents', 3), async(req,res)=>{
     const { uid } = req.params;
     try {
@@ -34,7 +63,6 @@ router.post('/:uid/documents', uploader.array('documents', 3), async(req,res)=>{
                 name: file.originalname,
                 reference: file.path 
              }))
-        
             const docUser = await User.updateDoc(
                 { _id: uid },
                 { $push: { documents: { $each: documents } } }, 
