@@ -78,7 +78,7 @@ router.get("/ghlogincallback", passport.authenticate("ghlogin", { failureRedirec
          user: userWithoutPassword
        }), {
          httpOnly: true,
-         maxAge: 24 * 60 * 60 * 1000 // 1 día de duración
+         maxAge: 24 * 60 * 60 * 1000 
       });
 
       if (req.user.role === 'admin') {
